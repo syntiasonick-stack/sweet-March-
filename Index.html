@@ -5,2006 +5,482 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sweet March - Find Your Perfect Match</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        
-        * {
-            font-family: 'Poppins', sans-serif;
-        }
+        * { font-family: 'Poppins', sans-serif; }
 
         body {
             background: linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #ff9ff3 100%);
             min-height: 100vh;
+            margin: 0;
             overflow-x: hidden;
-        }
-
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .heart-bg {
             position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
+            inset: 0;
             z-index: -1;
-            opacity: 0.1;
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z' fill='white'/%3E%3C/svg%3E");
-            animation: float 20s ease-in-out infinite;
+            opacity: 0.08;
+            background-image: url("hearts.svg");
+            background-repeat: repeat;
+            pointer-events: none;
+            animation: float 24s ease-in-out infinite;
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(-15px); }
+        }
+
+        .glass-panel {
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.35);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
         }
 
         .profile-card {
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.42s cubic-bezier(0.175, 0.885, 0.32, 1.4);
         }
 
         .profile-card:hover {
-            transform: translateY(-10px) scale(1.02);
+            transform: translateY(-12px) scale(1.015);
         }
 
         .chat-bubble {
-            animation: slideIn 0.3s ease;
-            max-width: 70%;
-            word-wrap: break-word;
+            animation: slideIn 0.32s ease-out;
+            max-width: 76%;
         }
 
         @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
+            from { opacity: 0; transform: translateX(-16px); }
+            to   { opacity: 1; transform: translateX(0); }
         }
 
-        .typing-indicator span {
-            animation: blink 1.4s infinite both;
-        }
-
-        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
-
-        @keyframes blink {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 1; }
-        }
-
-        .video-container {
-            background: linear-gradient(135deg, #2d3436 0%, #000000 100%);
-        }
-
-        .pulse-ring {
-            position: absolute;
-            border-radius: 50%;
-            border: 3px solid #ff6b9d;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(1.5); opacity: 0; }
-        }
-
-        .match-animation {
-            animation: matchPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        @keyframes matchPop {
-            0% { transform: scale(0) rotate(-180deg); opacity: 0; }
-            50% { transform: scale(1.2) rotate(0deg); }
-            100% { transform: scale(1) rotate(0deg); opacity: 1; }
-        }
-
-        .nav-item.active {
-            color: #ff6b9d;
-            transform: scale(1.1);
-        }
-
-        .story-ring {
-            background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
-            padding: 3px;
-            border-radius: 50%;
-        }
-
-        .online-dot {
-            animation: pulse-green 2s infinite;
-        }
-
-        @keyframes pulse-green {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(72, 187, 120, 0.7); }
-            50% { box-shadow: 0 0 0 10px rgba(72, 187, 120, 0); }
-        }
-
-        .hidden-section {
-            display: none !important;
-        }
-
-        .fade-in {
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #ff6b9d 0%, #feca57 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .loading-spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #ff6b9d;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .error-shake {
-            animation: shake 0.5s;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
-
-        .friend-card {
-            transition: all 0.3s ease;
-        }
-
-        .friend-card:hover {
-            transform: translateX(5px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .local-video {
-            position: absolute;
-            bottom: 100px;
-            right: 20px;
-            width: 120px;
-            height: 160px;
-            border-radius: 12px;
-            border: 3px solid white;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            z-index: 10;
-        }
-
-        .tab-active {
-            border-bottom: 3px solid #ff6b9d;
-            color: #ff6b9d;
-        }
-
-        .scroll-hide::-webkit-scrollbar {
-            display: none;
-        }
-        .scroll-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        /* Admin Panel Styles */
         .admin-btn {
             position: fixed;
-            bottom: 80px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            bottom: 90px;
+            right: 24px;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 20px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            font-size: 1.4rem;
+            box-shadow: 0 6px 20px rgba(102,126,234,0.4);
             z-index: 1000;
             transition: all 0.3s ease;
         }
 
         .admin-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+            transform: scale(1.12);
+            box-shadow: 0 10px 30px rgba(102,126,234,0.55);
         }
 
         .admin-panel {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.9);
+            inset: 0;
+            background: rgba(0,0,0,0.92);
             z-index: 2000;
-            overflow-y: auto;
             display: none;
-        }
-
-        .admin-panel.active {
-            display: block;
-        }
-
-        .admin-sidebar {
-            width: 250px;
-            background: #1a1a2e;
-            min-height: 100vh;
-            position: fixed;
-            left: 0;
-            top: 0;
-            padding: 20px;
-            color: white;
-        }
-
-        .admin-content {
-            margin-left: 250px;
-            padding: 30px;
-            color: white;
-            min-height: 100vh;
-        }
-
-        .admin-stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .admin-nav-item {
-            padding: 15px;
-            margin: 5px 0;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .admin-nav-item:hover, .admin-nav-item.active {
-            background: rgba(255,255,255,0.1);
-        }
-
-        .user-row {
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
-            padding: 15px;
-            margin: 10px 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: all 0.3s;
-        }
-
-        .user-row:hover {
-            background: rgba(255,255,255,0.1);
-        }
-
-        .violation-badge {
-            background: #e74c3c;
-            color: white;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-        }
-
-        .warning-badge {
-            background: #f39c12;
-            color: white;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-        }
-
-        .ban-btn {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .ban-btn:hover {
-            background: #c0392b;
-        }
-
-        .warn-btn {
-            background: #f39c12;
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            margin-right: 10px;
-            transition: all 0.3s;
-        }
-
-        .warn-btn:hover {
-            background: #d68910;
-        }
-
-        .monitor-chat {
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
-            padding: 15px;
-            margin: 10px 0;
-            max-height: 300px;
             overflow-y: auto;
         }
 
-        .log-entry {
-            font-family: monospace;
-            font-size: 12px;
-            padding: 5px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            color: #aaa;
+        .admin-panel.active { display: block; }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #ff6b9d, #feca57);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .log-entry.error { color: #e74c3c; }
-        .log-entry.warning { color: #f39c12; }
-        .log-entry.success { color: #2ecc71; }
-
-        .admin-login-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.9);
-            z-index: 3000;
-            display: none;
-            align-items: center;
-            justify-content: center;
+        .match-animation {
+            animation: matchPop 0.58s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .admin-login-modal.active {
-            display: flex;
+        @keyframes matchPop {
+            0%   { transform: scale(0.4) rotate(-160deg); opacity: 0; }
+            60%  { transform: scale(1.15) rotate(8deg); }
+            100% { transform: scale(1) rotate(0); opacity: 1; }
         }
 
-        .admin-login-box {
-            background: #1a1a2e;
-            padding: 40px;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            color: white;
-        }
-
-        .admin-input {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 10px;
-            border: 2px solid rgba(255,255,255,0.1);
-            background: rgba(255,255,255,0.05);
-            color: white;
-            outline: none;
-        }
-
-        .admin-input:focus {
-            border-color: #667eea;
-        }
-
-        .admin-login-btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-
-        .close-admin {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            background: rgba(255,255,255,0.1);
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #ff6b9d;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            cursor: pointer;
-            z-index: 2001;
+            width: 28px;
+            height: 28px;
+            animation: spin 1s linear infinite;
         }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Hide scrollbar but keep scrolling */
+        .scroll-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .scroll-hide::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body class="text-gray-800">
+<body class="text-gray-800 relative">
+
     <div class="heart-bg"></div>
 
-    <!-- Admin Login Modal -->
-    <div id="adminLoginModal" class="admin-login-modal">
-        <div class="admin-login-box">
-            <div class="w-16 h-16 mx-auto bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center text-white text-2xl mb-4">
-                <i class="fas fa-shield-alt"></i>
+    <!-- ── Admin Login Modal ──────────────────────────────────────── -->
+    <div id="adminLoginModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel rounded-3xl p-8 max-w-sm w-full text-center">
+            <div class="w-20 h-20 mx-auto bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center text-white text-3xl mb-6">
+                <i class="fas fa-shield-halved"></i>
             </div>
-            <h2 class="text-2xl font-bold mb-2">Admin Access</h2>
-            <p class="text-gray-400 mb-6">Restricted Area - Authorized Personnel Only</p>
-            
-            <input type="text" id="adminUsername" class="admin-input" placeholder="Admin Username">
-            <input type="password" id="adminPassword" class="admin-input" placeholder="Admin Password">
-            
-            <div id="adminLoginError" class="text-red-400 text-sm mb-4 hidden"></div>
-            
-            <button onclick="loginAdmin()" class="admin-login-btn">
-                <i class="fas fa-lock mr-2"></i>Access Admin Panel
+            <h2 class="text-2xl font-bold mb-2">Admin Area</h2>
+            <p class="text-gray-500 mb-6 text-sm">Authorized personnel only</p>
+
+            <input id="adminUsername" type="text" placeholder="Username" class="w-full p-4 mb-4 rounded-xl bg-white/60 border border-gray-200 focus:border-purple-400 outline-none">
+            <input id="adminPassword" type="password" placeholder="Password" class="w-full p-4 mb-4 rounded-xl bg-white/60 border border-gray-200 focus:border-purple-400 outline-none">
+
+            <div id="adminLoginError" class="text-red-600 text-sm mb-4 hidden"></div>
+
+            <button onclick="loginAdmin()" class="w-full py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all">
+                Access Panel
             </button>
-            
-            <button onclick="closeAdminLogin()" class="mt-4 text-gray-400 hover:text-white text-sm">
+
+            <button onclick="document.getElementById('adminLoginModal').classList.add('hidden')" class="mt-4 text-gray-400 hover:text-white text-sm">
                 Cancel
             </button>
         </div>
     </div>
 
-    <!-- Admin Panel -->
-    <div id="adminPanel" class="admin-panel">
-        <div class="close-admin" onclick="closeAdminPanel()">
-            <i class="fas fa-times"></i>
-        </div>
-
-        <div class="admin-sidebar">
-            <div class="flex items-center gap-3 mb-8">
-                <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center">
-                    <i class="fas fa-shield-alt"></i>
-                </div>
-                <div>
-                    <h3 class="font-bold">Admin Panel</h3>
-                    <p class="text-xs text-gray-400">Super Admin</p>
-                </div>
-            </div>
-
-            <div class="admin-nav-item active" onclick="showAdminSection('dashboard')">
-                <i class="fas fa-tachometer-alt"></i>
-                <span>Dashboard</span>
-            </div>
-            <div class="admin-nav-item" onclick="showAdminSection('users')">
-                <i class="fas fa-users"></i>
-                <span>All Users</span>
-                <span id="adminUserCount" class="ml-auto bg-red-500 text-xs px-2 py-1 rounded-full">0</span>
-            </div>
-            <div class="admin-nav-item" onclick="showAdminSection('violations')">
-                <i class="fas fa-exclamation-triangle"></i>
-                <span>Violations</span>
-                <span id="adminViolationCount" class="ml-auto bg-yellow-500 text-xs px-2 py-1 rounded-full">0</span>
-            </div>
-            <div class="admin-nav-item" onclick="showAdminSection('monitoring')">
-                <i class="fas fa-eye"></i>
-                <span>Live Monitoring</span>
-            </div>
-            <div class="admin-nav-item" onclick="showAdminSection('banned')">
-                <i class="fas fa-ban"></i>
-                <span>Banned Users</span>
-            </div>
-            <div class="admin-nav-item" onclick="showAdminSection('logs')">
-                <i class="fas fa-history"></i>
-                <span>System Logs</span>
-            </div>
-            <div class="admin-nav-item" onclick="logoutAdmin()">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Logout</span>
-            </div>
-        </div>
-
-        <div class="admin-content">
-            <!-- Dashboard -->
-            <div id="adminDashboard" class="admin-section">
-                <h1 class="text-3xl font-bold mb-6">Dashboard Overview</h1>
-                
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                    <div class="admin-stat-card">
-                        <i class="fas fa-users text-3xl mb-2"></i>
-                        <h3 class="text-2xl font-bold" id="statTotalUsers">0</h3>
-                        <p>Total Users</p>
-                    </div>
-                    <div class="admin-stat-card" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
-                        <i class="fas fa-user-check text-3xl mb-2"></i>
-                        <h3 class="text-2xl font-bold" id="statActiveUsers">0</h3>
-                        <p>Active Now</p>
-                    </div>
-                    <div class="admin-stat-card" style="background: linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%);">
-                        <i class="fas fa-exclamation-triangle text-3xl mb-2"></i>
-                        <h3 class="text-2xl font-bold" id="statViolations">0</h3>
-                        <p>Violations</p>
-                    </div>
-                    <div class="admin-stat-card" style="background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);">
-                        <i class="fas fa-ban text-3xl mb-2"></i>
-                        <h3 class="text-2xl font-bold" id="statBanned">0</h3>
-                        <p>Banned Users</p>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-white/5 rounded-2xl p-6">
-                        <h3 class="text-xl font-bold mb-4">Recent Activity</h3>
-                        <div id="recentActivity" class="space-y-3">
-                            <!-- Populated by JS -->
-                        </div>
-                    </div>
-                    <div class="bg-white/5 rounded-2xl p-6">
-                        <h3 class="text-xl font-bold mb-4">System Status</h3>
-                        <div class="space-y-3">
-                            <div class="flex justify-between items-center p-3 bg-white/5 rounded-lg">
-                                <span>Server Status</span>
-                                <span class="text-green-400"><i class="fas fa-check-circle"></i> Online</span>
-                            </div>
-                            <div class="flex justify-between items-center p-3 bg-white/5 rounded-lg">
-                                <span>Database</span>
-                                <span class="text-green-400"><i class="fas fa-check-circle"></i> Connected</span>
-                            </div>
-                            <div class="flex justify-between items-center p-3 bg-white/5 rounded-lg">
-                                <span>Security Level</span>
-                                <span class="text-yellow-400"><i class="fas fa-shield-alt"></i> High</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Users Management -->
-            <div id="adminUsers" class="admin-section hidden">
-                <div class="flex justify-between items-center mb-6">
-                    <h1 class="text-3xl font-bold">User Management</h1>
-                    <div class="flex gap-3">
-                        <input type="text" id="userSearch" placeholder="Search users..." class="admin-input w-64" onkeyup="searchUsers()">
-                        <select id="userFilter" class="admin-input w-40" onchange="filterUsers()">
-                            <option value="all">All Users</option>
-                            <option value="active">Active</option>
-                            <option value="warned">Warned</option>
-                            <option value="banned">Banned</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div id="usersList" class="space-y-3">
-                    <!-- Populated by JS -->
-                </div>
-            </div>
-
-            <!-- Violations -->
-            <div id="adminViolations" class="admin-section hidden">
-                <h1 class="text-3xl font-bold mb-6">Reported Violations</h1>
-                <div id="violationsList" class="space-y-4">
-                    <!-- Populated by JS -->
-                </div>
-            </div>
-
-            <!-- Live Monitoring -->
-            <div id="adminMonitoring" class="admin-section hidden">
-                <h1 class="text-3xl font-bold mb-6">Live Monitoring</h1>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-white/5 rounded-2xl p-6">
-                        <h3 class="text-xl font-bold mb-4">Active Chats</h3>
-                        <div id="monitorChats" class="monitor-chat">
-                            <!-- Live chats -->
-                        </div>
-                    </div>
-                    <div class="bg-white/5 rounded-2xl p-6">
-                        <h3 class="text-xl font-bold mb-4">Active Calls</h3>
-                        <div id="monitorCalls" class="space-y-3">
-                            <!-- Active calls -->
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mt-6 bg-white/5 rounded-2xl p-6">
-                    <h3 class="text-xl font-bold mb-4">Real-time Activity Log</h3>
-                    <div id="activityLog" class="monitor-chat font-mono text-sm">
-                        <!-- Activity logs -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Banned Users -->
-            <div id="adminBanned" class="admin-section hidden">
-                <h1 class="text-3xl font-bold mb-6">Banned Users</h1>
-                <div id="bannedList" class="space-y-3">
-                    <!-- Populated by JS -->
-                </div>
-            </div>
-
-            <!-- System Logs -->
-            <div id="adminLogs" class="admin-section hidden">
-                <h1 class="text-3xl font-bold mb-6">System Logs</h1>
-                <div class="bg-black/30 rounded-2xl p-6 font-mono text-sm h-96 overflow-y-auto" id="systemLogs">
-                    <!-- Logs -->
-                </div>
-            </div>
-        </div>
+    <!-- ── Floating Admin Button ──────────────────────────────────── -->
+    <div class="admin-btn" onclick="document.getElementById('adminLoginModal').classList.remove('hidden')">
+        <i class="fas fa-shield-halved"></i>
     </div>
 
-    <!-- Admin Access Button -->
-    <div class="admin-btn" onclick="openAdminLogin()" title="Admin Access">
-        <i class="fas fa-shield-alt"></i>
-    </div>
-
-    <!-- Main App Content -->
-    <div id="authScreen" class="min-h-screen flex items-center justify-center p-4">
-        <div class="glass-panel rounded-3xl shadow-2xl w-full max-w-md p-8 text-center fade-in">
-            <div class="mb-6">
-                <div class="w-24 h-24 mx-auto bg-gradient-to-br from-pink-400 to-red-500 rounded-full flex items-center justify-center text-white text-4xl shadow-lg mb-4">
+    <!-- ── Main Auth Screen ───────────────────────────────────────── -->
+    <div id="authScreen" class="min-h-screen flex items-center justify-center p-5">
+        <div class="glass-panel rounded-3xl shadow-2xl w-full max-w-md p-8 text-center">
+            <div class="mb-8">
+                <div class="w-24 h-24 mx-auto bg-gradient-to-br from-pink-500 to-rose-500 rounded-full flex items-center justify-center text-white text-5xl shadow-xl">
                     <i class="fas fa-heart"></i>
                 </div>
-                <h1 class="text-4xl font-bold gradient-text mb-2">Sweet March</h1>
-                <p class="text-gray-600">Find your perfect match</p>
+                <h1 class="text-4xl font-bold gradient-text mt-4">Sweet March</h1>
+                <p class="text-gray-600 mt-1">Find someone special</p>
             </div>
 
-            <div id="loginForm" class="space-y-4">
-                <div class="relative">
-                    <input type="text" id="loginEmail" placeholder="Email or Phone Number" class="w-full px-6 py-4 rounded-2xl border-2 border-gray-200 focus:border-pink-400 outline-none transition-all bg-white/50">
-                    <i class="fas fa-envelope absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                </div>
-                <div class="relative">
-                    <input type="password" id="loginPassword" placeholder="Password" class="w-full px-6 py-4 rounded-2xl border-2 border-gray-200 focus:border-pink-400 outline-none transition-all bg-white/50">
-                    <i class="fas fa-lock absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                </div>
-                <div id="loginError" class="text-red-500 text-sm hidden"></div>
-                <button onclick="login()" id="loginBtn" class="w-full py-4 bg-gradient-to-r from-pink-500 to-red-500 text-white rounded-2xl font-semibold text-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all flex items-center justify-center gap-2">
-                    <span>Sign In</span>
+            <div id="loginForm">
+                <input id="loginEmail"    type="text"     placeholder="Email or Phone" class="w-full p-4 mb-4 rounded-xl bg-white/60 border border-gray-200 focus:border-pink-400 outline-none">
+                <input id="loginPassword" type="password" placeholder="Password"        class="w-full p-4 mb-4 rounded-xl bg-white/60 border border-gray-200 focus:border-pink-400 outline-none">
+                <div id="loginError" class="text-red-600 text-sm mb-4 hidden"></div>
+                <button onclick="login()" class="w-full py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all">
+                    Sign In
                 </button>
-                <p class="text-gray-600">Don't have an account? <button onclick="showRegister()" class="text-pink-600 font-semibold hover:underline">Sign Up</button></p>
+                <p class="mt-6 text-gray-600">
+                    No account? <button onclick="showRegister()" class="text-pink-600 font-medium hover:underline">Sign Up</button>
+                </p>
             </div>
 
-            <div id="registerForm" class="space-y-4 hidden">
-                <form id="signupForm" onsubmit="handleRegister(event)">
-                    <div class="space-y-4">
-                        <div class="grid grid-cols-2 gap-3">
-                            <input type="text" name="fullName" id="regName" placeholder="Full Name" required class="w-full px-4 py-3 rounded-2xl border-2 border-gray-200 focus:border-pink-400 outline-none bg-white/50">
-                            <input type="number" name="age" id="regAge" placeholder="Age" required class="w-full px-4 py-3 rounded-2xl border-2 border-gray-200 focus:border-pink-400 outline-none bg-white/50">
-                        </div>
-                        
-                        <select name="gender" id="regGender" required class="w-full px-4 py-3 rounded-2xl border-2 border-gray-200 focus:border-pink-400 outline-none bg-white/50">
-                            <option value="">Select Gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
-                        </select>
+            <div id="registerForm" class="hidden">
+                <input id="regName"        type="text"     placeholder="Full Name"         class="w-full p-4 mb-3 rounded-xl bg-white/60 border border-gray-200 focus:border-pink-400 outline-none">
+                <div class="grid grid-cols-2 gap-3 mb-3">
+                    <input id="regAge"     type="number"   placeholder="Age"               class="w-full p-4 rounded-xl bg-white/60 border border-gray-200 focus:border-pink-400 outline-none">
+                    <select id="regGender" class="w-full p-4 rounded-xl bg-white/60 border border-gray-200 focus:border-pink-400 outline-none">
+                        <option value="">Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <input id="regEmail"     type="text"     placeholder="Email or Phone"    class="w-full p-4 mb-3 rounded-xl bg-white/60 border border-gray-200 focus:border-pink-400 outline-none">
+                <input id="regPassword"  type="password" placeholder="Create Password"   class="w-full p-4 mb-3 rounded-xl bg-white/60 border border-gray-200 focus:border-pink-400 outline-none">
+                <input id="regLocation"  type="text"     placeholder="City, Country"      class="w-full p-4 mb-4 rounded-xl bg-white/60 border border-gray-200 focus:border-pink-400 outline-none">
 
-                        <input type="text" name="emailOrPhone" id="regEmail" placeholder="Email or Phone Number" required class="w-full px-4 py-3 rounded-2xl border-2 border-gray-200 focus:border-pink-400 outline-none bg-white/50">
-                        
-                        <input type="password" name="password" id="regPassword" placeholder="Create Password" required class="w-full px-4 py-3 rounded-2xl border-2 border-gray-200 focus:border-pink-400 outline-none bg-white/50">
-                        
-                        <input type="text" name="location" id="regLocation" placeholder="Location (City, Country)" required class="w-full px-4 py-3 rounded-2xl border-2 border-gray-200 focus:border-pink-400 outline-none bg-white/50">
-
-                        <div class="border-2 border-dashed border-gray-300 rounded-2xl p-4 text-center cursor-pointer hover:border-pink-400 transition-all relative" id="photoUploadArea" onclick="document.getElementById('regPhoto').click()">
-                            <input type="file" name="profilePhoto" id="regPhoto" accept="image/*" required class="hidden" onchange="previewRegPhoto(this)">
-                            <div id="uploadPrompt">
-                                <i class="fas fa-camera text-2xl text-gray-400 mb-2"></i>
-                                <p class="text-sm text-gray-600">Upload Profile Photo</p>
-                                <p class="text-xs text-gray-400 mt-1">Click to select photo</p>
-                            </div>
-                            <img id="regPhotoPreview" class="hidden w-20 h-20 rounded-full mx-auto object-cover border-4 border-pink-200">
-                            <button type="button" id="removePhoto" onclick="removeRegPhoto(event)" class="hidden absolute top-2 right-2 w-6 h-6 bg-red-500 text-white rounded-full text-xs hover:bg-red-600">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-
-                        <div id="registerError" class="text-red-500 text-sm hidden"></div>
-
-                        <button type="submit" id="registerBtn" class="w-full py-4 bg-gradient-to-r from-pink-500 to-red-500 text-white rounded-2xl font-semibold text-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all flex items-center justify-center gap-2">
-                            <span>Create Account</span>
-                        </button>
+                <div id="photoArea" class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center cursor-pointer hover:border-pink-400 transition-all mb-4" onclick="document.getElementById('regPhoto').click()">
+                    <input type="file" id="regPhoto" accept="image/*" class="hidden" onchange="previewRegPhoto(event)">
+                    <div id="uploadPrompt">
+                        <i class="fas fa-camera text-3xl text-gray-400 mb-2"></i>
+                        <p class="text-gray-600">Profile Photo</p>
+                        <p class="text-sm text-gray-400 mt-1">(click to choose)</p>
                     </div>
-                </form>
-                <p class="text-gray-600 mt-4">Already have an account? <button onclick="showLogin()" class="text-pink-600 font-semibold hover:underline">Sign In</button></p>
+                    <img id="regPhotoPreview" class="hidden w-24 h-24 rounded-full mx-auto object-cover border-4 border-pink-200">
+                </div>
+
+                <div id="registerError" class="text-red-600 text-sm mb-4 hidden"></div>
+
+                <button onclick="handleRegister()" class="w-full py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all">
+                    Create Account
+                </button>
+
+                <p class="mt-6 text-gray-600">
+                    Have account? <button onclick="showLogin()" class="text-pink-600 font-medium hover:underline">Sign In</button>
+                </p>
             </div>
         </div>
     </div>
 
-    <!-- Main App -->
-    <div id="mainApp" class="hidden min-h-screen pb-20">
+    <!-- ── Main App (hidden at start) ─────────────────────────────── -->
+    <div id="mainApp" class="hidden flex flex-col min-h-screen">
+
         <!-- Header -->
-        <header class="glass-panel sticky top-0 z-50 px-6 py-4 flex justify-between items-center shadow-sm">
+        <header class="glass-panel sticky top-0 z-50 px-5 py-4 flex justify-between items-center shadow-sm">
             <div class="flex items-center gap-2">
                 <i class="fas fa-heart text-pink-500 text-2xl"></i>
                 <span class="text-2xl font-bold gradient-text">Sweet March</span>
             </div>
-            <div class="flex items-center gap-4">
-                <button class="relative p-2 hover:bg-pink-50 rounded-full transition-all" onclick="showNotifications()">
-                    <i class="fas fa-bell text-gray-600 text-xl"></i>
-                    <span id="notifBadge" class="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full border-2 border-white hidden"></span>
+            <div class="flex items-center gap-5">
+                <button onclick="alert('No new notifications')" class="relative">
+                    <i class="fas fa-bell text-xl text-gray-700"></i>
                 </button>
-                <img id="userProfilePic" src="" class="w-10 h-10 rounded-full object-cover border-2 border-pink-400 cursor-pointer" onclick="showProfile()">
+                <img id="userAvatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80" class="w-10 h-10 rounded-full object-cover border-2 border-pink-400 cursor-pointer" onclick="showProfile()">
             </div>
         </header>
 
-        <!-- Home / Matching Section -->
-        <section id="homeSection" class="p-4 max-w-md mx-auto">
-            <div class="flex gap-4 overflow-x-auto pb-4 mb-4 scroll-hide">
-                <div class="flex-shrink-0 text-center">
-                    <div class="story-ring w-16 h-16 rounded-full p-1 cursor-pointer">
-                        <img id="storyUserPic" src="" class="w-full h-full rounded-full object-cover border-2 border-white">
-                    </div>
-                    <p class="text-xs mt-1 font-medium">Your Story</p>
-                </div>
-            </div>
-
-            <div id="profileCard" class="profile-card relative bg-white rounded-3xl shadow-2xl overflow-hidden mb-6">
-                <div class="relative h-96">
-                    <img id="currentProfileImg" src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-                    
-                    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
-                        <div class="flex items-end justify-between mb-2">
-                            <div>
-                                <h2 id="currentProfileName" class="text-3xl font-bold">Emma, 24</h2>
-                                <p class="text-white/80 flex items-center gap-2">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <span id="currentProfileLocation">New York, USA</span>
-                                </p>
-                            </div>
-                            <div class="online-dot w-3 h-3 bg-green-400 rounded-full mb-2"></div>
-                        </div>
-                        <p id="currentProfileBio" class="text-sm text-white/90 line-clamp-2">Love hiking, photography, and good coffee!</p>
-                    </div>
-                </div>
-
-                <div class="p-6 flex justify-center gap-6 bg-white">
-                    <button onclick="swipe('reject')" class="swipe-btn reject w-14 h-14 rounded-full bg-white border-2 border-gray-200 text-gray-600 flex items-center justify-center text-xl">
-                        <i class="fas fa-times"></i>
-                    </button>
-                    <button onclick="swipe('super')" class="swipe-btn super w-12 h-12 rounded-full bg-white border-2 border-yellow-400 text-yellow-500 flex items-center justify-center text-lg mt-1">
-                        <i class="fas fa-star"></i>
-                    </button>
-                    <button onclick="swipe('like')" class="swipe-btn like w-14 h-14 rounded-full bg-white border-2 border-pink-400 text-pink-500 flex items-center justify-center text-xl">
-                        <i class="fas fa-heart"></i>
-                    </button>
-                </div>
-            </div>
-
-            <div id="matchPopup" class="hidden fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
-                <div class="text-center match-animation">
-                    <h2 class="text-5xl font-bold text-white mb-4">It's a Match! 💕</h2>
-                    <p class="text-white/80 mb-8 text-lg">You and Emma liked each other</p>
-                    
-                    <div class="flex justify-center gap-4 mb-8">
-                        <img id="matchUserPic" src="" class="w-24 h-24 rounded-full border-4 border-white object-cover">
-                        <div class="text-4xl text-pink-500 self-center">❤️</div>
-                        <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=200" class="w-24 h-24 rounded-full border-4 border-white object-cover">
-                    </div>
-
-                    <div class="space-y-3">
-                        <button onclick="startChatFromMatch()" class="w-full py-4 bg-gradient-to-r from-pink-500 to-red-500 text-white rounded-2xl font-semibold text-lg">
-                            Send a Message
-                        </button>
-                        <button onclick="closeMatchPopup()" class="w-full py-4 bg-white/10 text-white rounded-2xl font-semibold hover:bg-white/20 transition-all">
-                            Keep Swiping
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Friends Section -->
-        <section id="friendsSection" class="hidden-section p-4 max-w-md mx-auto">
-            <h2 class="text-2xl font-bold mb-4">Friends</h2>
-            
-            <div class="flex border-b border-gray-200 mb-4">
-                <button onclick="switchFriendTab('local')" id="tabLocal" class="flex-1 py-3 text-center font-medium tab-active transition-all">
-                    <i class="fas fa-map-marker-alt mr-2"></i>Near You
-                </button>
-                <button onclick="switchFriendTab('global')" id="tabGlobal" class="flex-1 py-3 text-center font-medium text-gray-500 transition-all">
-                    <i class="fas fa-globe mr-2"></i>Worldwide
-                </button>
-                <button onclick="switchFriendTab('myfriends')" id="tabMyFriends" class="flex-1 py-3 text-center font-medium text-gray-500 transition-all">
-                    <i class="fas fa-user-friends mr-2"></i>My Friends
-                </button>
-            </div>
-
-            <button onclick="showAddFriendModal()" class="w-full mb-4 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all">
-                <i class="fas fa-plus mr-2"></i>Add New Friend
-            </button>
-
-            <div id="localFriendsList" class="space-y-3"></div>
-            <div id="globalFriendsList" class="hidden space-y-3"></div>
-            <div id="myFriendsList" class="hidden space-y-3"></div>
-        </section>
-
-        <!-- Chat Section -->
-        <section id="chatSection" class="hidden-section h-screen flex flex-col">
-            <div id="chatList" class="flex-1 overflow-y-auto p-4">
-                <h2 class="text-2xl font-bold mb-4 px-2">Messages</h2>
-                <div class="space-y-2" id="chatListContainer"></div>
-            </div>
-
-            <div id="activeChat" class="hidden flex-col h-full bg-white">
-                <div class="glass-panel px-4 py-3 flex items-center gap-4 shadow-sm">
-                    <button onclick="backToChatList()" class="p-2 hover:bg-gray-100 rounded-full">
-                        <i class="fas fa-arrow-left text-gray-600"></i>
-                    </button>
-                    <img id="chatPartnerImg" src="" class="w-10 h-10 rounded-full object-cover">
-                    <div class="flex-1">
-                        <h3 id="chatPartnerName" class="font-semibold"></h3>
-                        <p class="text-xs text-green-500">Online</p>
-                    </div>
-                    <button onclick="startVoiceCall()" class="p-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all shadow-lg mr-2">
-                        <i class="fas fa-phone"></i>
-                    </button>
-                    <button onclick="startVideoCall()" class="p-3 bg-pink-500 text-white rounded-full hover:bg-pink-600 transition-all shadow-lg">
-                        <i class="fas fa-video"></i>
-                    </button>
-                </div>
-
-                <div id="messagesContainer" class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50"></div>
-
-                <div class="p-4 bg-white border-t border-gray-100">
-                    <div class="flex gap-2">
-                        <button class="p-3 text-gray-400 hover:text-pink-500 transition-all">
-                            <i class="fas fa-image text-xl"></i>
-                        </button>
-                        <input type="text" id="messageInput" placeholder="Type a message..." class="flex-1 px-4 py-3 bg-gray-100 rounded-full outline-none focus:ring-2 focus:ring-pink-300" onkeypress="if(event.key==='Enter') sendMessage()">
-                        <button onclick="sendMessage()" class="p-3 bg-pink-500 text-white rounded-full hover:bg-pink-600 transition-all shadow-lg">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Call Interface -->
-        <section id="callSection" class="hidden-section fixed inset-0 bg-black z-50">
-            <div class="video-container w-full h-full relative flex flex-col">
-                <div id="videoGrid" class="flex-1 relative p-4">
-                    <video id="remoteVideo" autoplay playsinline class="w-full h-full bg-gray-800 rounded-2xl object-cover"></video>
-                    <video id="localVideo" autoplay playsinline muted class="local-video bg-gray-800"></video>
-                    
-                    <div id="audioOnlyIndicator" class="hidden absolute inset-0 flex items-center justify-center bg-gray-900">
-                        <div class="text-center text-white">
-                            <div class="w-32 h-32 mx-auto bg-pink-500 rounded-full flex items-center justify-center text-4xl mb-4">
-                                <i class="fas fa-user"></i>
-                            </div>
-                            <h3 id="audioCallName" class="text-2xl font-bold mb-2">Voice Call</h3>
-                            <p class="text-gray-400">00:00</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="p-8 flex justify-center gap-6 bg-gradient-to-t from-black/80 to-transparent">
-                    <button onclick="toggleMute()" id="muteBtn" class="w-14 h-14 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all">
-                        <i class="fas fa-microphone text-xl"></i>
-                    </button>
-                    <button onclick="toggleVideo()" id="videoBtn" class="w-14 h-14 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all">
-                        <i class="fas fa-video text-xl"></i>
-                    </button>
-                    <button onclick="endCall()" class="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center text-white hover:bg-red-600 transition-all shadow-lg">
-                        <i class="fas fa-phone-slash text-2xl"></i>
-                    </button>
-                    <button onclick="toggleSpeaker()" class="w-14 h-14 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all">
-                        <i class="fas fa-volume-up text-xl"></i>
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Profile Section -->
-        <section id="profileSection" class="hidden-section p-4 max-w-md mx-auto">
-            <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
-                <div class="relative h-64">
-                    <img id="profilePageImg" src="" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    <button onclick="showHome()" class="absolute top-4 left-4 w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white">
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
-                    <div class="absolute bottom-4 left-4 text-white">
-                        <h2 id="profilePageName" class="text-3xl font-bold">You</h2>
-                        <p id="profilePageLocation"><i class="fas fa-map-marker-alt mr-1"></i><span></span></p>
-                    </div>
-                </div>
-                
-                <div class="p-6 space-y-6">
-                    <div class="flex justify-around">
-                        <div class="text-center">
-                            <p id="statFriends" class="text-2xl font-bold text-pink-500">0</p>
-                            <p class="text-gray-600 text-sm">Friends</p>
-                        </div>
-                        <div class="text-center">
-                            <p id="statMatches" class="text-2xl font-bold text-pink-500">0</p>
-                            <p class="text-gray-600 text-sm">Matches</p>
-                        </div>
-                        <div class="text-center">
-                            <p id="statMessages" class="text-2xl font-bold text-pink-500">0</p>
-                            <p class="text-gray-600 text-sm">Messages</p>
-                        </div>
-                    </div>
-
-                    <div class="space-y-4">
-                        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl">
-                            <i class="fas fa-user text-gray-400 text-xl"></i>
-                            <div class="flex-1">
-                                <p class="text-sm text-gray-500">Full Name</p>
-                                <p id="profileFullName" class="font-medium"></p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl">
-                            <i class="fas fa-envelope text-gray-400 text-xl"></i>
-                            <div class="flex-1">
-                                <p class="text-sm text-gray-500">Email/Phone</p>
-                                <p id="profileEmail" class="font-medium"></p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl">
-                            <i class="fas fa-venus-mars text-gray-400 text-xl"></i>
-                            <div class="flex-1">
-                                <p class="text-sm text-gray-500">Gender</p>
-                                <p id="profileGender" class="font-medium"></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button onclick="logout()" class="w-full py-4 border-2 border-red-500 text-red-500 rounded-2xl font-semibold hover:bg-red-50 transition-all">
-                        Log Out
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Add Friend Modal -->
-        <div id="addFriendModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-            <div class="bg-white rounded-3xl p-6 w-full max-w-md max-h-[80vh] overflow-y-auto">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-bold">Add Friend</h3>
-                    <button onclick="closeAddFriendModal()" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                
-                <div class="relative mb-4">
-                    <input type="text" id="friendSearchInput" placeholder="Search by name or location..." class="w-full px-4 py-3 pl-10 bg-gray-100 rounded-2xl outline-none focus:ring-2 focus:ring-pink-300">
-                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                </div>
-
-                <div id="searchResults" class="space-y-3"></div>
-            </div>
-        </div>
-
         <!-- Bottom Navigation -->
-        <nav id="bottomNav" class="fixed bottom-0 left-0 right-0 glass-panel border-t border-white/20 px-6 py-3 flex justify-around items-center z-40">
-            <button onclick="showHome()" class="nav-item active flex flex-col items-center gap-1 text-gray-400 hover:text-pink-500 transition-all" id="navHome">
+        <nav class="fixed bottom-0 left-0 right-0 glass-panel border-t z-40 flex justify-around py-3">
+            <button onclick="showSection('home')" class="nav-btn active flex flex-col items-center text-pink-500">
                 <i class="fas fa-heart text-2xl"></i>
-                <span class="text-xs font-medium">Discover</span>
+                <span class="text-xs mt-1">Discover</span>
             </button>
-            <button onclick="showFriends()" class="nav-item flex flex-col items-center gap-1 text-gray-400 hover:text-pink-500 transition-all relative" id="navFriends">
+            <button onclick="showSection('friends')" class="nav-btn flex flex-col items-center text-gray-600 hover:text-pink-500">
                 <i class="fas fa-user-friends text-2xl"></i>
-                <span class="text-xs font-medium">Friends</span>
-                <span id="friendBadge" class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-white text-xs flex items-center justify-center hidden">0</span>
+                <span class="text-xs mt-1">Friends</span>
             </button>
-            <button onclick="showChat()" class="nav-item flex flex-col items-center gap-1 text-gray-400 hover:text-pink-500 transition-all relative" id="navChat">
-                <i class="fas fa-comment text-2xl"></i>
-                <span class="text-xs font-medium">Chat</span>
-                <span id="chatBadge" class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-white text-xs flex items-center justify-center hidden">0</span>
+            <button onclick="showSection('chat')" class="nav-btn flex flex-col items-center text-gray-600 hover:text-pink-500">
+                <i class="fas fa-comment-dots text-2xl"></i>
+                <span class="text-xs mt-1">Chat</span>
             </button>
-            <button onclick="showProfile()" class="nav-item flex flex-col items-center gap-1 text-gray-400 hover:text-pink-500 transition-all" id="navProfile">
+            <button onclick="showSection('profile')" class="nav-btn flex flex-col items-center text-gray-600 hover:text-pink-500">
                 <i class="fas fa-user text-2xl"></i>
-                <span class="text-xs font-medium">Profile</span>
+                <span class="text-xs mt-1">Profile</span>
             </button>
         </nav>
+
+        <!-- Sections -->
+        <main class="flex-1 pb-24 overflow-y-auto">
+
+            <!-- Home / Swipe -->
+            <section id="home" class="p-5">
+                <div id="profileCard" class="profile-card bg-white rounded-3xl shadow-xl overflow-hidden mx-auto max-w-md">
+                    <div class="relative h-[480px]">
+                        <img id="profileImg" src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 right-6 text-white">
+                            <h2 id="profileName" class="text-3xl font-bold">Alex, 26</h2>
+                            <p class="flex items-center gap-2 mt-1"><i class="fas fa-map-marker-alt"></i> Lagos, NG</p>
+                            <p id="profileBio" class="mt-3 text-sm">Coffee addict • Loves sunset walks & good music</p>
+                        </div>
+                    </div>
+                    <div class="p-6 flex justify-center gap-8 bg-white">
+                        <button onclick="swipe('left')"  class="w-16 h-16 rounded-full bg-white border-2 border-gray-300 text-gray-600 flex items-center justify-center text-2xl hover:bg-gray-100 transition">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <button onclick="swipe('right')" class="w-16 h-16 rounded-full bg-white border-2 border-pink-400 text-pink-500 flex items-center justify-center text-2xl hover:bg-pink-50 transition">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Friends - placeholder -->
+            <section id="friends" class="p-5 hidden">
+                <h2 class="text-2xl font-bold mb-6">Friends</h2>
+                <p class="text-gray-500 text-center py-10">Coming soon – add friends feature</p>
+            </section>
+
+            <!-- Chat - placeholder -->
+            <section id="chat" class="p-5 hidden">
+                <h2 class="text-2xl font-bold mb-6">Messages</h2>
+                <p class="text-gray-500 text-center py-10">Chat feature under construction</p>
+            </section>
+
+            <!-- Profile -->
+            <section id="profile" class="p-5 hidden">
+                <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
+                    <div class="relative h-64">
+                        <img id="myProfileImg" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 text-white">
+                            <h2 class="text-3xl font-bold">You</h2>
+                            <p class="flex items-center gap-2"><i class="fas fa-map-marker-alt"></i> Lagos, NG</p>
+                        </div>
+                    </div>
+                    <div class="p-6 space-y-6">
+                        <button onclick="logout()" class="w-full py-4 border-2 border-red-500 text-red-500 rounded-xl font-semibold hover:bg-red-50 transition">
+                            Log Out
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
 
     <script>
-        // ==================== ADMIN CONFIGURATION ====================
-        // ADMIN LOGIN CREDENTIALS - KEEP THIS SECURE
-        const ADMIN_CREDENTIALS = {
-            username: 'omotayofanegan',
-            password: 'SweetMarch2024!',
-            email: 'omotayofanegan@gmail.com'
-        };
-
-        let isAdminLoggedIn = false;
-        let adminLogs = [];
-        let violations = [];
-        let bannedUsers = [];
-
-        // ==================== ADMIN FUNCTIONS ====================
-
-        function openAdminLogin() {
-            document.getElementById('adminLoginModal').classList.add('active');
-        }
-
-        function closeAdminLogin() {
-            document.getElementById('adminLoginModal').classList.remove('active');
-            document.getElementById('adminUsername').value = '';
-            document.getElementById('adminPassword').value = '';
-            document.getElementById('adminLoginError').classList.add('hidden');
-        }
+        // ── Admin credentials (change in production!) ────────
+        const ADMIN_USER = "admin";
+        const ADMIN_PASS = "sweetmarch2025";
 
         function loginAdmin() {
-            const username = document.getElementById('adminUsername').value.trim();
-            const password = document.getElementById('adminPassword').value;
+            const u = document.getElementById("adminUsername").value.trim();
+            const p = document.getElementById("adminPassword").value;
+            const err = document.getElementById("adminLoginError");
 
-            if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
-                isAdminLoggedIn = true;
-                closeAdminLogin();
-                openAdminPanel();
-                addAdminLog('Admin logged in successfully', 'success');
+            if (u === ADMIN_USER && p === ADMIN_PASS) {
+                alert("Admin access granted (demo mode)");
+                document.getElementById("adminLoginModal").classList.add("hidden");
             } else {
-                document.getElementById('adminLoginError').textContent = 'Invalid admin credentials';
-                document.getElementById('adminLoginError').classList.remove('hidden');
-                addAdminLog(`Failed admin login attempt: ${username}`, 'error');
+                err.textContent = "Wrong username or password";
+                err.classList.remove("hidden");
             }
         }
 
-        function logoutAdmin() {
-            isAdminLoggedIn = false;
-            closeAdminPanel();
-            addAdminLog('Admin logged out', 'success');
-        }
-
-        function openAdminPanel() {
-            document.getElementById('adminPanel').classList.add('active');
-            updateAdminDashboard();
-            startLiveMonitoring();
-        }
-
-        function closeAdminPanel() {
-            document.getElementById('adminPanel').classList.remove('active');
-            stopLiveMonitoring();
-        }
-
-        function showAdminSection(section) {
-            // Hide all sections
-            document.querySelectorAll('.admin-section').forEach(s => s.classList.add('hidden'));
-            
-            // Show selected
-            document.getElementById('admin' + section.charAt(0).toUpperCase() + section.slice(1)).classList.remove('hidden');
-            
-            // Update nav
-            document.querySelectorAll('.admin-nav-item').forEach(n => n.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-
-            if (section === 'users') renderAdminUsers();
-            if (section === 'violations') renderViolations();
-            if (section === 'banned') renderBannedUsers();
-            if (section === 'logs') renderSystemLogs();
-        }
-
-        function updateAdminDashboard() {
-            const users = JSON.parse(localStorage.getItem('sweetMarchUsers') || '[]');
-            const totalUsers = users.length;
-            const activeUsers = users.filter(u => u.lastActive && (Date.now() - new Date(u.lastActive).getTime() < 300000)).length;
-            
-            document.getElementById('statTotalUsers').textContent = totalUsers;
-            document.getElementById('statActiveUsers').textContent = activeUsers || Math.floor(Math.random() * 10) + 1;
-            document.getElementById('statViolations').textContent = violations.length;
-            document.getElementById('statBanned').textContent = bannedUsers.length;
-            
-            document.getElementById('adminUserCount').textContent = totalUsers;
-            document.getElementById('adminViolationCount').textContent = violations.length;
-
-            // Recent activity
-            const recentActivity = document.getElementById('recentActivity');
-            recentActivity.innerHTML = users.slice(-5).map(u => `
-                <div class="flex items-center gap-3 p-3 bg-white/5 rounded-lg">
-                    <img src="${u.photo}" class="w-10 h-10 rounded-full object-cover">
-                    <div class="flex-1">
-                        <p class="font-medium">${u.fullName}</p>
-                        <p class="text-xs text-gray-400">Joined ${new Date(u.joinedDate).toLocaleDateString()}</p>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function renderAdminUsers() {
-            const users = JSON.parse(localStorage.getItem('sweetMarchUsers') || '[]');
-            const container = document.getElementById('usersList');
-            
-            container.innerHTML = users.map(user => {
-                const isBanned = bannedUsers.find(b => b.id === user.id);
-                const hasViolation = violations.find(v => v.userId === user.id);
-                
-                return `
-                    <div class="user-row">
-                        <div class="flex items-center gap-4">
-                            <img src="${user.photo}" class="w-12 h-12 rounded-full object-cover">
-                            <div>
-                                <h4 class="font-semibold">${user.fullName}</h4>
-                                <p class="text-sm text-gray-400">${user.emailOrPhone} • ${user.location}</p>
-                                ${isBanned ? '<span class="violation-badge">BANNED</span>' : ''}
-                                ${hasViolation ? '<span class="warning-badge">WARNING</span>' : ''}
-                            </div>
-                        </div>
-                        <div class="flex gap-2">
-                            ${!isBanned ? `
-                                <button onclick="warnUser(${user.id})" class="warn-btn">Warn</button>
-                                <button onclick="banUser(${user.id})" class="ban-btn">Ban</button>
-                            ` : `
-                                <button onclick="unbanUser(${user.id})" class="px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600">Unban</button>
-                            `}
-                            <button onclick="viewUserDetails(${user.id})" class="px-4 py-2 bg-white/10 text-white rounded-full hover:bg-white/20">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function banUser(userId) {
-            const users = JSON.parse(localStorage.getItem('sweetMarchUsers') || '[]');
-            const user = users.find(u => u.id === userId);
-            
-            if (user) {
-                bannedUsers.push({
-                    id: userId,
-                    name: user.fullName,
-                    email: user.emailOrPhone,
-                    bannedAt: new Date().toISOString(),
-                    reason: 'Violation of community guidelines'
-                });
-                
-                addAdminLog(`Banned user: ${user.fullName} (${user.emailOrPhone})`, 'error');
-                updateAdminDashboard();
-                renderAdminUsers();
-                
-                // Remove from active users
-                localStorage.setItem('sweetMarchBanned', JSON.stringify(bannedUsers));
-            }
-        }
-
-        function unbanUser(userId) {
-            bannedUsers = bannedUsers.filter(b => b.id !== userId);
-            localStorage.setItem('sweetMarchBanned', JSON.stringify(bannedUsers));
-            addAdminLog(`Unbanned user ID: ${userId}`, 'success');
-            updateAdminDashboard();
-            renderAdminUsers();
-        }
-
-        function warnUser(userId) {
-            const users = JSON.parse(localStorage.getItem('sweetMarchUsers') || '[]');
-            const user = users.find(u => u.id === userId);
-            
-            violations.push({
-                userId: userId,
-                userName: user.fullName,
-                type: 'warning',
-                message: 'Inappropriate behavior',
-                timestamp: new Date().toISOString()
-            });
-            
-            addAdminLog(`Warned user: ${user.fullName}`, 'warning');
-            updateAdminDashboard();
-            renderAdminUsers();
-        }
-
-        function renderViolations() {
-            const container = document.getElementById('violationsList');
-            container.innerHTML = violations.map(v => `
-                <div class="bg-white/5 rounded-xl p-4">
-                    <div class="flex justify-between items-start mb-2">
-                        <h4 class="font-semibold">${v.userName}</h4>
-                        <span class="text-xs text-gray-400">${new Date(v.timestamp).toLocaleString()}</span>
-                    </div>
-                    <p class="text-sm text-gray-300 mb-3">${v.message}</p>
-                    <div class="flex gap-2">
-                        <button onclick="banUser(${v.userId})" class="ban-btn text-sm">Ban User</button>
-                        <button onclick="dismissViolation('${v.timestamp}')" class="px-3 py-1 bg-white/10 rounded-full text-sm hover:bg-white/20">Dismiss</button>
-                    </div>
-                </div>
-            `).join('') || '<p class="text-gray-400">No violations reported</p>';
-        }
-
-        function renderBannedUsers() {
-            const container = document.getElementById('bannedList');
-            container.innerHTML = bannedUsers.map(b => `
-                <div class="user-row">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center">
-                            <i class="fas fa-ban text-red-500"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold">${b.name}</h4>
-                            <p class="text-sm text-gray-400">${b.email} • Banned: ${new Date(b.bannedAt).toLocaleDateString()}</p>
-                            <p class="text-xs text-red-400 mt-1">Reason: ${b.reason}</p>
-                        </div>
-                    </div>
-                    <button onclick="unbanUser(${b.id})" class="px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600">Unban</button>
-                </div>
-            `).join('') || '<p class="text-gray-400">No banned users</p>';
-        }
-
-        function renderSystemLogs() {
-            const container = document.getElementById('systemLogs');
-            container.innerHTML = adminLogs.map(log => `
-                <div class="log-entry ${log.type}">
-                    <span class="text-gray-500">[${new Date(log.time).toLocaleTimeString()}]</span>
-                    ${log.message}
-                </div>
-            `).join('');
-            container.scrollTop = container.scrollHeight;
-        }
-
-        function addAdminLog(message, type = 'info') {
-            adminLogs.push({
-                message: message,
-                type: type,
-                time: new Date().toISOString()
-            });
-            
-            // Keep only last 100 logs
-            if (adminLogs.length > 100) adminLogs.shift();
-        }
-
-        let monitoringInterval;
-        function startLiveMonitoring() {
-            monitoringInterval = setInterval(() => {
-                // Simulate live data
-                const activeChats = Math.floor(Math.random() * 5);
-                const activeCalls = Math.floor(Math.random() * 3);
-                
-                document.getElementById('monitorChats').innerHTML = Array(activeChats).fill(0).map((_, i) => `
-                    <div class="flex items-center gap-3 p-2 bg-white/5 rounded-lg mb-2">
-                        <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-xs">U${i+1}</div>
-                        <div class="flex-1">
-                            <p class="text-sm">User ${i+1} ↔ User ${i+10}</p>
-                            <p class="text-xs text-gray-400">Active now</p>
-                        </div>
-                        <button class="text-xs bg-red-500/20 text-red-400 px-2 py-1 rounded">Monitor</button>
-                    </div>
-                `).join('');
-                
-                document.getElementById('monitorCalls').innerHTML = Array(activeCalls).fill(0).map((_, i) => `
-                    <div class="flex items-center justify-between p-3 bg-white/5 rounded-lg">
-                        <div class="flex items-center gap-3">
-                            <i class="fas fa-video text-pink-400"></i>
-                            <div>
-                                <p class="text-sm">Video Call #${i+1}</p>
-                                <p class="text-xs text-gray-400">Duration: ${Math.floor(Math.random()*10)}:${Math.floor(Math.random()*60).toString().padStart(2,'0')}</p>
-                            </div>
-                        </div>
-                        <button class="text-xs bg-red-500/20 text-red-400 px-3 py-1 rounded-full hover:bg-red-500/40">End Call</button>
-                    </div>
-                `).join('');
-                
-                // Add random activity log
-                if (Math.random() > 0.7) {
-                    const activities = [
-                        'New user registration detected',
-                        'User reported inappropriate content',
-                        'New match created',
-                        'Video call initiated',
-                        'Message flagged for review'
-                    ];
-                    const activity = activities[Math.floor(Math.random() * activities.length)];
-                    addAdminLog(activity, 'info');
-                }
-                
-            }, 3000);
-        }
-
-        function stopLiveMonitoring() {
-            clearInterval(monitoringInterval);
-        }
-
-        function searchUsers() {
-            const query = document.getElementById('userSearch').value.toLowerCase();
-            renderAdminUsers();
-        }
-
-        function filterUsers() {
-            renderAdminUsers();
-        }
-
-        function viewUserDetails(userId) {
-            const users = JSON.parse(localStorage.getItem('sweetMarchUsers') || '[]');
-            const user = users.find(u => u.id === userId);
-            if (user) {
-                alert(`User Details:\n\nName: ${user.fullName}\nEmail/Phone: ${user.emailOrPhone}\nLocation: ${user.location}\nAge: ${user.age}\nGender: ${user.gender}\nJoined: ${new Date(user.joinedDate).toLocaleString()}`);
-            }
-        }
-
-        function dismissViolation(timestamp) {
-            violations = violations.filter(v => v.timestamp !== timestamp);
-            renderViolations();
-            updateAdminDashboard();
-        }
-
-        // ==================== REGULAR APP FUNCTIONS ====================
-
+        // ── Auth / Register / Login logic ────────────────────
         let currentUser = null;
-        let localStream = null;
-        let currentCallType = null;
-        let currentChat = null;
-        
-        const sampleUsers = [
-            { id: 1, name: 'Sarah Johnson', age: 24, location: 'Lagos, Nigeria', bio: 'Love music and dancing!', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100', isLocal: true },
-            { id: 2, name: 'Mike Chen', age: 27, location: 'Lagos, Nigeria', bio: 'Tech enthusiast', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100', isLocal: true },
-            { id: 3, name: 'Emma Wilson', age: 25, location: 'London, UK', bio: 'Travel lover ✈️', image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100', isLocal: false },
-            { id: 4, name: 'Carlos Rivera', age: 28, location: 'Madrid, Spain', bio: 'Foodie 🍕', image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100', isLocal: false }
-        ];
-
-        let friends = [];
-        let messages = {};
-        let currentProfileIndex = 0;
-
-        // Check if user is banned on load
-        window.onload = function() {
-            bannedUsers = JSON.parse(localStorage.getItem('sweetMarchBanned') || '[]');
-            
-            const savedUser = localStorage.getItem('sweetMarchUser');
-            if (savedUser) {
-                const user = JSON.parse(savedUser);
-                if (bannedUsers.find(b => b.id === user.id)) {
-                    alert('Your account has been banned. Contact admin for support.');
-                    localStorage.removeItem('sweetMarchUser');
-                    return;
-                }
-                currentUser = user;
-                friends = JSON.parse(localStorage.getItem('allFriends') || '{}')[user.id] || [];
-                messages = JSON.parse(localStorage.getItem('allMessages') || '{}')[user.id] || {};
-                showMainApp();
-            }
-        };
 
         function showRegister() {
-            document.getElementById('loginForm').classList.add('hidden');
-            document.getElementById('registerForm').classList.remove('hidden');
+            document.getElementById("loginForm").classList.add("hidden");
+            document.getElementById("registerForm").classList.remove("hidden");
         }
 
         function showLogin() {
-            document.getElementById('registerForm').classList.add('hidden');
-            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById("registerForm").classList.add("hidden");
+            document.getElementById("loginForm").classList.remove("hidden");
         }
 
-        function previewRegPhoto(input) {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('regPhotoPreview').src = e.target.result;
-                    document.getElementById('regPhotoPreview').classList.remove('hidden');
-                    document.getElementById('uploadPrompt').classList.add('hidden');
-                    document.getElementById('removePhoto').classList.remove('hidden');
-                    localStorage.setItem('tempRegPhoto', e.target.result);
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
+        function previewRegPhoto(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = ev => {
+                document.getElementById("regPhotoPreview").src = ev.target.result;
+                document.getElementById("regPhotoPreview").classList.remove("hidden");
+                document.getElementById("uploadPrompt").style.display = "none";
+            };
+            reader.readAsDataURL(file);
         }
 
-        function removeRegPhoto(e) {
-            e.stopPropagation();
-            document.getElementById('regPhoto').value = '';
-            document.getElementById('regPhotoPreview').classList.add('hidden');
-            document.getElementById('uploadPrompt').classList.remove('hidden');
-            document.getElementById('removePhoto').classList.add('hidden');
-        }
+        function handleRegister() {
+            const name     = document.getElementById("regName").value.trim();
+            const age      = document.getElementById("regAge").value;
+            const gender   = document.getElementById("regGender").value;
+            const email    = document.getElementById("regEmail").value.trim();
+            const pass     = document.getElementById("regPassword").value;
+            const location = document.getElementById("regLocation").value.trim();
+            const photoEl  = document.getElementById("regPhotoPreview");
 
-        function handleRegister(e) {
-            e.preventDefault();
-            
-            // Check if banned
-            const email = document.getElementById('regEmail').value;
-            if (bannedUsers.find(b => b.email === email)) {
-                document.getElementById('registerError').textContent = 'This email has been banned from the platform.';
-                document.getElementById('registerError').classList.remove('hidden');
+            if (!name || !age || !gender || !email || !pass || !location) {
+                document.getElementById("registerError").textContent = "Please fill all fields";
+                document.getElementById("registerError").classList.remove("hidden");
                 return;
             }
 
-            const userData = {
+            currentUser = {
                 id: Date.now(),
-                fullName: document.getElementById('regName').value,
-                age: document.getElementById('regAge').value,
-                gender: document.getElementById('regGender').value,
-                emailOrPhone: email,
-                password: document.getElementById('regPassword').value,
-                location: document.getElementById('regLocation').value,
-                photo: localStorage.getItem('tempRegPhoto') || 'https://via.placeholder.com/150',
-                joinedDate: new Date().toISOString(),
-                lastActive: new Date().toISOString()
+                name, age, gender, email, location,
+                photo: photoEl.src || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150",
+                joined: new Date().toISOString()
             };
 
-            let users = JSON.parse(localStorage.getItem('sweetMarchUsers') || '[]');
-            if (users.find(u => u.emailOrPhone === userData.emailOrPhone)) {
-                document.getElementById('registerError').textContent = 'Account already exists!';
-                document.getElementById('registerError').classList.remove('hidden');
-                return;
-            }
-
-            users.push(userData);
-            localStorage.setItem('sweetMarchUsers', JSON.stringify(users));
-            localStorage.setItem('sweetMarchUser', JSON.stringify(userData));
-            
-            currentUser = userData;
-            localStorage.removeItem('tempRegPhoto');
-            
-            addAdminLog(`New user registered: ${userData.fullName} (${userData.emailOrPhone})`, 'success');
+            localStorage.setItem("sweetMarchUser", JSON.stringify(currentUser));
             showMainApp();
         }
 
         function login() {
-            const emailOrPhone = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPassword').value;
-            
-            if (!emailOrPhone || !password) {
-                document.getElementById('loginError').textContent = 'Please fill in all fields';
-                document.getElementById('loginError').classList.remove('hidden');
+            const email = document.getElementById("loginEmail").value.trim();
+            const pass  = document.getElementById("loginPassword").value;
+            const saved = localStorage.getItem("sweetMarchUser");
+
+            if (!saved) {
+                document.getElementById("loginError").textContent = "No account found. Please sign up first.";
+                document.getElementById("loginError").classList.remove("hidden");
                 return;
             }
 
-            const users = JSON.parse(localStorage.getItem('sweetMarchUsers') || '[]');
-            const user = users.find(u => u.emailOrPhone === emailOrPhone && u.password === password);
-            
-            if (user) {
-                // Check if banned
-                if (bannedUsers.find(b => b.id === user.id)) {
-                    document.getElementById('loginError').textContent = 'Your account has been banned. Contact admin.';
-                    document.getElementById('loginError').classList.remove('hidden');
-                    addAdminLog(`Banned user attempted login: ${user.emailOrPhone}`, 'error');
-                    return;
-                }
-
-                user.lastActive = new Date().toISOString();
-                localStorage.setItem('sweetMarchUsers', JSON.stringify(users));
-                
+            const user = JSON.parse(saved);
+            // Very basic check – in real app use proper auth
+            if (user.email === email) {
                 currentUser = user;
-                localStorage.setItem('sweetMarchUser', JSON.stringify(user));
-                
-                const allFriends = JSON.parse(localStorage.getItem('allFriends') || '{}');
-                friends = allFriends[user.id] || [];
-                
-                const allMessages = JSON.parse(localStorage.getItem('allMessages') || '{}');
-                messages = allMessages[user.id] || {};
-                
-                addAdminLog(`User logged in: ${user.fullName}`, 'success');
                 showMainApp();
             } else {
-                document.getElementById('loginError').textContent = 'Invalid credentials';
-                document.getElementById('loginError').classList.remove('hidden');
-                addAdminLog(`Failed login attempt: ${emailOrPhone}`, 'warning');
+                document.getElementById("loginError").textContent = "Invalid credentials";
+                document.getElementById("loginError").classList.remove("hidden");
             }
         }
 
         function logout() {
-            if (currentUser) {
-                const allFriends = JSON.parse(localStorage.getItem('allFriends') || '{}');
-                allFriends[currentUser.id] = friends;
-                localStorage.setItem('allFriends', JSON.stringify(allFriends));
-                
-                const allMessages = JSON.parse(localStorage.getItem('allMessages') || '{}');
-                allMessages[currentUser.id] = messages;
-                localStorage.setItem('allMessages', JSON.stringify(allMessages));
-                
-                addAdminLog(`User logged out: ${currentUser.fullName}`, 'info');
-            }
-            
+            localStorage.removeItem("sweetMarchUser");
             currentUser = null;
-            friends = [];
-            messages = {};
-            localStorage.removeItem('sweetMarchUser');
-            location.reload();
+            document.getElementById("mainApp").classList.add("hidden");
+            document.getElementById("authScreen").classList.remove("hidden");
         }
 
         function showMainApp() {
-            document.getElementById('authScreen').classList.add('hidden');
-            document.getElementById('mainApp').classList.remove('hidden');
-            
-            document.getElementById('userProfilePic').src = currentUser.photo;
-            document.getElementById('storyUserPic').src = currentUser.photo;
-            document.getElementById('matchUserPic').src = currentUser.photo;
-            
-            document.getElementById('profilePageImg').src = currentUser.photo;
-            document.getElementById('profilePageName').textContent = currentUser.fullName;
-            document.getElementById('profilePageLocation').innerHTML = `<i class="fas fa-map-marker-alt mr-1"></i>${currentUser.location}`;
-            document.getElementById('profileFullName').textContent = currentUser.fullName;
-            document.getElementById('profileEmail').textContent = currentUser.emailOrPhone;
-            document.getElementById('profileGender').textContent = currentUser.gender.charAt(0).toUpperCase() + currentUser.gender.slice(1);
-            
-            updateStats();
-            renderFriends();
-            renderChatList();
-            loadProfile();
+            document.getElementById("authScreen").classList.add("hidden");
+            document.getElementById("mainApp").classList.remove("hidden");
+
+            // Load avatar
+            const avatar = currentUser?.photo || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80";
+            document.getElementById("userAvatar").src = avatar;
+            document.getElementById("myProfileImg").src = avatar;
         }
 
-        function showHome() {
-            hideAllSections();
-            document.getElementById('homeSection').classList.remove('hidden');
-            updateNav('navHome');
-        }
+        function showSection(id) {
+            document.querySelectorAll("main > section").forEach(s => s.classList.add("hidden"));
+            document.getElementById(id).classList.remove("hidden");
 
-        function showFriends() {
-            hideAllSections();
-            document.getElementById('friendsSection').classList.remove('hidden');
-            updateNav('navFriends');
-            renderFriends();
-        }
-
-        function showChat() {
-            hideAllSections();
-            document.getElementById('chatSection').classList.remove('hidden');
-            document.getElementById('chatSection').classList.add('flex');
-            updateNav('navChat');
-            renderChatList();
-        }
-
-        function showProfile() {
-            hideAllSections();
-            document.getElementById('profileSection').classList.remove('hidden');
-            updateNav('navProfile');
-        }
-
-        function hideAllSections() {
-            document.getElementById('homeSection').classList.add('hidden');
-            document.getElementById('friendsSection').classList.add('hidden');
-            document.getElementById('chatSection').classList.add('hidden');
-            document.getElementById('chatSection').classList.remove('flex');
-            document.getElementById('profileSection').classList.add('hidden');
-            document.getElementById('callSection').classList.add('hidden');
-            document.getElementById('chatList').classList.remove('hidden');
-            document.getElementById('activeChat').classList.add('hidden');
-            document.getElementById('activeChat').classList.remove('flex');
-        }
-
-        function updateNav(activeId) {
-            document.querySelectorAll('.nav-item').forEach(nav => {
-                nav.classList.remove('active');
-                nav.classList.remove('text-pink-500');
-                nav.classList.add('text-gray-400');
+            document.querySelectorAll(".nav-btn").forEach(btn => {
+                btn.classList.remove("active", "text-pink-500");
+                btn.classList.add("text-gray-600");
             });
-            const active = document.getElementById(activeId);
-            active.classList.add('active');
-            active.classList.remove('text-gray-400');
-            active.classList.add('text-pink-500');
+            event.currentTarget.classList.add("active", "text-pink-500");
+            event.currentTarget.classList.remove("text-gray-600");
         }
 
-        function switchFriendTab(tab) {
-            document.getElementById('tabLocal').className = tab === 'local' ? 'flex-1 py-3 text-center font-medium tab-active transition-all' : 'flex-1 py-3 text-center font-medium text-gray-500 transition-all';
-            document.getElementById('tabGlobal').className = tab === 'global' ? 'flex-1 py-3 text-center font-medium tab-active transition-all' : 'flex-1 py-3 text-center font-medium text-gray-500 transition-all';
-            document.getElementById('tabMyFriends').className = tab === 'myfriends' ? 'flex-1 py-3 text-center font-medium tab-active transition-all' : 'flex-1 py-3 text-center font-medium text-gray-500 transition-all';
-            
-            document.getElementById('localFriendsList').classList.toggle('hidden', tab !== 'local');
-            document.getElementById('globalFriendsList').classList.toggle('hidden', tab !== 'global');
-            document.getElementById('myFriendsList').classList.toggle('hidden', tab !== 'myfriends');
-        }
-
-        function renderFriends() {
-            const userLocation = currentUser.location.split(',')[0].trim().toLowerCase();
-            
-            const localUsers = sampleUsers.filter(u => 
-                u.location.toLowerCase().includes(userLocation) && 
-                !friends.find(f => f.id === u.id) &&
-                u.id !== currentUser.id
-            );
-            
-            const globalUsers = sampleUsers.filter(u => 
-                !u.location.toLowerCase().includes(userLocation) && 
-                !friends.find(f => f.id === u.id) &&
-                u.id !== currentUser.id
-            );
-            
-            document.getElementById('localFriendsList').innerHTML = localUsers.map(user => createFriendCard(user)).join('') || '<p class="text-center text-gray-500 py-4">No friends nearby</p>';
-            document.getElementById('globalFriendsList').innerHTML = globalUsers.map(user => createFriendCard(user)).join('') || '<p class="text-center text-gray-500 py-4">No friends found</p>';
-            document.getElementById('myFriendsList').innerHTML = friends.map(friend => createFriendCard(friend, true)).join('') || '<p class="text-center text-gray-500 py-4">You haven\'t added any friends yet</p>';
-        }
-
-        function createFriendCard(user, isFriend = false) {
-            return `
-                <div class="friend-card bg-white p-4 rounded-2xl shadow-sm flex items-center gap-4">
-                    <div class="relative">
-                        <img src="${user.image}" class="w-14 h-14 rounded-full object-cover">
-                        ${isFriend ? '<div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>' : ''}
-                    </div>
-                    <div class="flex-1">
-                        <h3 class="font-semibold">${user.name}</h3>
-                        <p class="text-sm text-gray-500"><i class="fas fa-map-marker-alt mr-1"></i>${user.location}</p>
-                    </div>
-                    ${isFriend ? `
-                        <div class="flex gap-2">
-                            <button onclick="openChatWithFriend(${user.id})" class="w-10 h-10 bg-pink-100 text-pink-500 rounded-full flex items-center justify-center hover:bg-pink-200 transition-all">
-                                <i class="fas fa-comment"></i>
-                            </button>
-                            <button onclick="startCallWithFriend(${user.id}, 'audio')" class="w-10 h-10 bg-blue-100 text-blue-500 rounded-full flex items-center justify-center hover:bg-blue-200 transition-all">
-                                <i class="fas fa-phone"></i>
-                            </button>
-                            <button onclick="startCallWithFriend(${user.id}, 'video')" class="w-10 h-10 bg-purple-100 text-purple-500 rounded-full flex items-center justify-center hover:bg-purple-200 transition-all">
-                                <i class="fas fa-video"></i>
-                            </button>
-                        </div>
-                    ` : `
-                        <button onclick="addFriend(${user.id})" class="px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full text-sm font-medium hover:shadow-lg transition-all">
-                            <i class="fas fa-plus mr-1"></i>Add
-                        </button>
-                    `}
-                </div>
-            `;
-        }
-
-        function addFriend(userId) {
-            const user = sampleUsers.find(u => u.id === userId);
-            if (user && !friends.find(f => f.id === userId)) {
-                friends.push(user);
-                
-                const allFriends = JSON.parse(localStorage.getItem('allFriends') || '{}');
-                allFriends[currentUser.id] = friends;
-                localStorage.setItem('allFriends', JSON.stringify(allFriends));
-                
-                if (!messages[userId]) messages[userId] = [];
-                
-                renderFriends();
-                updateStats();
-                showNotification(`You are now friends with ${user.name}!`);
-                addAdminLog(`${currentUser.fullName} added ${user.name} as friend`, 'info');
-            }
-        }
-
-        function showAddFriendModal() {
-            document.getElementById('addFriendModal').classList.remove('hidden');
-            document.getElementById('friendSearchInput').focus();
-        }
-
-        function closeAddFriendModal() {
-            document.getElementById('addFriendModal').classList.add('hidden');
-            document.getElementById('searchResults').innerHTML = '';
-            document.getElementById('friendSearchInput').value = '';
-        }
-
-        document.getElementById('friendSearchInput')?.addEventListener('input', function(e) {
-            const query = e.target.value.toLowerCase();
-            const results = sampleUsers.filter(u => 
-                (u.name.toLowerCase().includes(query) || u.location.toLowerCase().includes(query)) &&
-                !friends.find(f => f.id === u.id) &&
-                u.id !== currentUser.id
-            );
-            
-            const container = document.getElementById('searchResults');
-            if (query === '') {
-                container.innerHTML = '';
-            } else if (results.length === 0) {
-                container.innerHTML = '<p class="text-center text-gray-500 py-4">No users found</p>';
-            } else {
-                container.innerHTML = results.map(user => createFriendCard(user)).join('');
-            }
-        });
-
-        function openChatWithFriend(friendId) {
-            const friend = friends.find(f => f.id === friendId) || sampleUsers.find(u => u.id === friendId);
-            if (friend) {
-                openChat(friend);
-            }
-        }
-
-        function openChat(friend) {
-            currentChat = friend;
-            
-            document.getElementById('chatList').classList.add('hidden');
-            document.getElementById('activeChat').classList.remove('hidden');
-            document.getElementById('activeChat').classList.add('flex');
-            
-            document.getElementById('chatPartnerName').textContent = friend.name;
-            document.getElementById('chatPartnerImg').src = friend.image;
-            
-            renderMessages();
-            addAdminLog(`${currentUser.fullName} opened chat with ${friend.name}`, 'info');
-        }
-
-        function backToChatList() {
-            document.getElementById('activeChat').classList.add('hidden');
-            document.getElementById('activeChat').classList.remove('flex');
-            document.getElementById('chatList').classList.remove('hidden');
-            currentChat = null;
-        }
-
-        function renderMessages() {
-            const container = document.getElementById('messagesContainer');
-            container.innerHTML = '';
-            
-            const chatMessages = messages[currentChat.id] || [];
-            
-            if (chatMessages.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center text-gray-400 mt-8">
-                        <i class="fas fa-comment-dots text-4xl mb-2"></i>
-                        <p>No messages yet. Say hello!</p>
-                    </div>
-                `;
-            } else {
-                chatMessages.forEach(msg => {
-                    const bubble = document.createElement('div');
-                    bubble.className = `flex ${msg.sender === 'me' ? 'justify-end' : 'justify-start'} chat-bubble mb-4`;
-                    bubble.innerHTML = `
-                        <div class="max-w-[70%] ${msg.sender === 'me' ? 'bg-pink-500 text-white' : 'bg-white text-gray-800 border border-gray-200'} rounded-2xl px-4 py-2 shadow-sm">
-                            <p>${msg.text}</p>
-                            <span class="text-xs ${msg.sender === 'me' ? 'text-pink-200' : 'text-gray-400'} block mt-1 text-right">${msg.time}</span>
-                        </div>
-                    `;
-                    container.appendChild(bubble);
-                });
-            }
-            
-            container.scrollTop = container.scrollHeight;
-        }
-
-        function sendMessage() {
-            const input = document.getElementById('messageInput');
-            const text = input.value.trim();
-            
-            if (text && currentChat) {
-                const now = new Date();
-                const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                
-                if (!messages[currentChat.id]) {
-                    messages[currentChat.id] = [];
-                }
-                
-                messages[currentChat.id].push({ 
-                    sender: 'me', 
-                    text: text, 
-                    time: time,
-                    timestamp: Date.now()
-                });
-                
-                const allMessages = JSON.parse(localStorage.getItem('allMessages') || '{}');
-                allMessages[currentUser.id] = messages;
-                localStorage.setItem('allMessages', JSON.stringify(allMessages));
-                
-                input.value = '';
-                renderMessages();
-                renderChatList();
-                
-                addAdminLog(`${currentUser.fullName} sent message to ${currentChat.name}: "${text.substring(0, 20)}..."`, 'info');
-                
-                // Simulate reply
-                setTimeout(() => {
-                    const replies = ['That sounds great! 😊', 'Haha totally!', 'Would love to!', 'Tell me more about it'];
-                    const randomReply = replies[Math.floor(Math.random() * replies.length)];
-                    messages[currentChat.id].push({ 
-                        sender: 'them', 
-                        text: randomReply, 
-                        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                        timestamp: Date.now()
-                    });
-                    
-                    allMessages[currentUser.id] = messages;
-                    localStorage.setItem('allMessages', JSON.stringify(allMessages));
-                    
-                    renderMessages();
-                    renderChatList();
-                    showNotification(`New message from ${currentChat.name}`);
-                }, 3000);
-            }
-        }
-
-        function renderChatList() {
-            const container = document.getElementById('chatListContainer');
-            
-            if (friends.length === 0) {
-                container.innerHTML = '<p class="text-center text-gray-500 py-8">Add friends to start chatting!</p>';
-                return;
-            }
-            
-            container.innerHTML = friends.map(friend => {
-                const lastMsg = messages[friend.id]?.slice(-1)[0];
-                const unreadCount = messages[friend.id]?.filter(m => m.sender === 'them' && !m.read).length || 0;
-                
-                return `
-                    <div onclick="openChatWithFriend(${friend.id})" class="flex items-center gap-4 p-4 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all cursor-pointer friend-card">
-                        <div class="relative">
-                            <img src="${friend.image}" class="w-14 h-14 rounded-full object-cover">
-                            <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <div class="flex justify-between items-center mb-1">
-                                <h3 class="font-semibold text-lg truncate">${friend.name}</h3>
-                                ${lastMsg ? `<span class="text-xs text-gray-400 flex-shrink-0">${lastMsg.time}</span>` : ''}
-                            </div>
-                            <p class="text-gray-600 text-sm truncate">${lastMsg ? lastMsg.text : 'Start a conversation...'}</p>
-                        </div>
-                        ${unreadCount > 0 ? `<div class="w-5 h-5 bg-pink-500 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">${unreadCount}</div>` : ''}
-                    </div>
-                `;
-            }).join('');
-        }
-
-        async function startCallWithFriend(friendId, type) {
-            const friend = friends.find(f => f.id === friendId);
-            if (friend) {
-                currentChat = friend;
-                await initiateCall(type);
-            }
-        }
-
-        async function startVideoCall() {
-            await initiateCall('video');
-        }
-
-        async function startVoiceCall() {
-            await initiateCall('audio');
-        }
-
-        async function initiateCall(type) {
-            currentCallType = type;
-            
-            try {
-                const constraints = {
-                    video: type === 'video',
-                    audio: true
-                };
-                
-                localStream = await navigator.mediaDevices.getUserMedia(constraints);
-                
-                document.getElementById('callSection').classList.remove('hidden');
-                document.getElementById('localVideo').srcObject = localStream;
-                
-                if (type === 'audio') {
-                    document.getElementById('audioOnlyIndicator').classList.remove('hidden');
-                    document.getElementById('audioCallName').textContent = `Calling ${currentChat.name}...`;
-                    document.getElementById('localVideo').classList.add('hidden');
-                } else {
-                    document.getElementById('audioOnlyIndicator').classList.add('hidden');
-                    document.getElementById('localVideo').classList.remove('hidden');
-                }
-                
-                addAdminLog(`${currentUser.fullName} started ${type} call with ${currentChat.name}`, 'info');
-                
-                setTimeout(() => {
-                    showNotification(`${currentChat.name} joined the call`);
-                }, 2000);
-                
-            } catch (err) {
-                console.error('Error accessing media devices:', err);
-                alert('Could not access camera/microphone. Please check permissions.');
-            }
-        }
-
-        function endCall() {
-            if (localStream) {
-                localStream.getTracks().forEach(track => track.stop());
-                localStream = null;
-            }
-            
-            document.getElementById('callSection').classList.add('hidden');
-            document.getElementById('localVideo').srcObject = null;
-            document.getElementById('remoteVideo').srcObject = null;
-            
-            addAdminLog(`${currentUser.fullName} ended call with ${currentChat.name}`, 'info');
-            showNotification('Call ended');
-        }
-
-        function toggleMute() {
-            if (localStream) {
-                const audioTrack = localStream.getAudioTracks()[0];
-                if (audioTrack) {
-                    audioTrack.enabled = !audioTrack.enabled;
-                    const btn = document.getElementById('muteBtn');
-                    btn.innerHTML = audioTrack.enabled ? '<i class="fas fa-microphone text-xl"></i>' : '<i class="fas fa-microphone-slash text-xl"></i>';
-                    btn.classList.toggle('bg-red-500', !audioTrack.enabled);
-                }
-            }
-        }
-
-        function toggleVideo() {
-            if (localStream) {
-                const videoTrack = localStream.getVideoTracks()[0];
-                if (videoTrack) {
-                    videoTrack.enabled = !videoTrack.enabled;
-                    const btn = document.getElementById('videoBtn');
-                    btn.innerHTML = videoTrack.enabled ? '<i class="fas fa-video text-xl"></i>' : '<i class="fas fa-video-slash text-xl"></i>';
-                    btn.classList.toggle('bg-red-500', !videoTrack.enabled);
-                }
-            }
-        }
-
-        function toggleSpeaker() {
-            const btn = event.currentTarget;
-            btn.classList.toggle('text-yellow-400');
-        }
-
-        function updateStats() {
-            document.getElementById('statFriends').textContent = friends.length;
-            
-            const totalMessages = Object.values(messages).reduce((acc, msgs) => acc + msgs.length, 0);
-            document.getElementById('statMessages').textContent = totalMessages;
-            
-            const unreadMessages = Object.values(messages).reduce((acc, msgs) => 
-                acc + msgs.filter(m => m.sender === 'them' && !m.read).length, 0
-            );
-            
-            const chatBadge = document.getElementById('chatBadge');
-            if (unreadMessages > 0) {
-                chatBadge.textContent = unreadMessages;
-                chatBadge.classList.remove('hidden');
-            } else {
-                chatBadge.classList.add('hidden');
-            }
-            
-            const friendBadge = document.getElementById('friendBadge');
-            if (friends.length > 0) {
-                friendBadge.textContent = friends.length;
-                friendBadge.classList.remove('hidden');
-            }
-        }
-
-        function showNotification(message) {
-            const notif = document.createElement('div');
-            notif.className = 'fixed top-20 left-1/2 -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-full shadow-lg z-50 fade-in flex items-center gap-2';
-            notif.innerHTML = `<i class="fas fa-bell text-pink-400"></i>${message}`;
-            document.body.appendChild(notif);
-            
-            setTimeout(() => {
-                notif.remove();
-            }, 3000);
-        }
-
-        function showNotifications() {
-            showNotification('No new notifications');
-        }
-
-        function loadProfile() {
-            const profile = sampleUsers[currentProfileIndex % sampleUsers.length];
-            document.getElementById('currentProfileImg').src = profile.image;
-            document.getElementById('currentProfileName').textContent = `${profile.name}, ${profile.age}`;
-            document.getElementById('currentProfileLocation').textContent = profile.location;
-            document.getElementById('currentProfileBio').textContent = profile.bio;
-        }
-
-        function swipe(action) {
-            const card = document.getElementById('profileCard');
-            
-            if (action === 'like') {
-                card.style.transform = 'translateX(100px) rotate(15deg)';
-                card.style.opacity = '0';
-                if (Math.random() > 0.7) {
-                    setTimeout(() => showMatchPopup(), 300);
-                }
-            } else if (action === 'reject') {
-                card.style.transform = 'translateX(-100px) rotate(-15deg)';
-                card.style.opacity = '0';
-            } else if (action === 'super') {
-                card.style.transform = 'translateY(-50px) scale(1.1)';
-                card.style.opacity = '0';
-                setTimeout(() => showMatchPopup(), 300);
-            }
+        function swipe(direction) {
+            const card = document.getElementById("profileCard");
+            card.style.transition = "all 0.6s ease";
+            card.style.transform = direction === "left" ? "translateX(-120%) rotate(-18deg)" : "translateX(120%) rotate(18deg)";
+            card.style.opacity = "0";
 
             setTimeout(() => {
-                card.style.transition = 'none';
-                card.style.transform = 'translateX(0) rotate(0)';
-                card.style.opacity = '1';
-                currentProfileIndex++;
-                loadProfile();
+                // Fake next profile
+                const names  = ["Alex", "Sofia", "David", "Maya", "Liam"];
+                const bios   = ["Love night drives", "Foodie & traveler", "Gamer & coder", "Yoga & books", "Music is life"];
+                const photos = [
+                    "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800",
+                    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800",
+                    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800",
+                    "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=800",
+                    "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800"
+                ];
+
+                const i = Math.floor(Math.random() * names.length);
+                document.getElementById("profileImg").src = photos[i];
+                document.getElementById("profileName").textContent = `${names[i]}, ${20 + Math.floor(Math.random()*15)}`;
+                document.getElementById("profileBio").textContent = bios[i];
+
+                card.style.transition = "none";
+                card.style.transform = "translateX(0) rotate(0)";
+                card.style.opacity = "1";
+
                 setTimeout(() => {
-                    card.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                    card.style.transition = "all 0.6s ease";
                 }, 50);
-            }, 300);
+            }, 600);
         }
 
-        function showMatchPopup() {
-            document.getElementById('matchPopup').classList.remove('hidden');
-        }
-
-        function closeMatchPopup() {
-            document.getElementById('matchPopup').classList.add('hidden');
-        }
-
-        function startChatFromMatch() {
-            closeMatchPopup();
-            showChat();
-        }
-
-        let touchStartX = 0;
-        document.addEventListener('touchstart', e => {
-            touchStartX = e.changedTouches[0].screenX;
-        });
-        document.addEventListener('touchend', e => {
-            const touchEndX = e.changedTouches[0].screenX;
-            if (!document.getElementById('homeSection').classList.contains('hidden')) {
-                if (touchEndX < touchStartX - 50) swipe('reject');
-                if (touchEndX > touchStartX + 50) swipe('like');
+        // Auto-login if already signed in
+        window.addEventListener("load", () => {
+            const saved = localStorage.getItem("sweetMarchUser");
+            if (saved) {
+                currentUser = JSON.parse(saved);
+                showMainApp();
+                showSection("home");
             }
         });
     </script>
